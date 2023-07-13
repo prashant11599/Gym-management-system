@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="loginregister.css">
+    <title>fitForFuture</title>
+</head>
+<body>
+    <div class="container">
+        <div class="signin-signup">
+            <form method="post" action="#" class="sign-in-form" >
+                <h2 class="title">Sign in</h2>
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="text" id="login_email" name="login_email" placeholder="Email">
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="login_password"  name="login_password" placeholder="Password">
+                </div>
+                <!-- <input type="submit" id="login" value="Login" class="btn"> -->
+                <button type="button" id="login" name="login" class="btn btn-success">Login</button>
+                <p class="account-text">Don't have an account? <a href="#" id="sign-up-btn2">Sign up</a></p>
+            </form>
+            <form method="post" action="#" class="sign-up-form"  >
+                <h2 class="title">Sign up</h2>
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="text" id="email" name="email" placeholder="Email">
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password"  name="password" placeholder="Password">
+                </div>
+                <!-- <input type="submit" id="register" value="Register" class="btn"> -->
+                <button type="button" id="register" name="register" class="btn btn-success">Register </button>
+                <p class="account-text">Already have an account? <a href="#" id="sign-in-btn2">Sign in</a></p>
+            </form>
+        </div>
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>Member of GYM?</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque accusantium dolor, eos incidunt
+                        minima iure?</p>
+                    <button class="btn" id="sign-in-btn">Login</button>
+                </div>
+                <!-- <img src="images\home\signin.png" alt="" class="image"> -->
+            </div>
+            <div class="panel right-panel">
+                <div class="content">
+                    <h3>New to GYM ?</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque accusantium dolor, eos incidunt
+                        minima iure?</p>
+                    <button class="btn" id="sign-up-btn">Register</button>
+                </div>
+                <!-- <img src="images\home\signup.png" alt="" class="image"> -->
+            </div>
+        </div>
+    </div>
+</body>
+<script type="module">
+    const sign_in_btn = document.querySelector("#sign-in-btn");
+    const sign_up_btn = document.querySelector("#sign-up-btn");
+    const container = document.querySelector(".container");
+    const sign_in_btn2 = document.querySelector("#sign-in-btn2");
+    const sign_up_btn2 = document.querySelector("#sign-up-btn2");
+    sign_up_btn.addEventListener("click", () => {
+        container.classList.add("sign-up-mode");
+    });
+    sign_in_btn.addEventListener("click", () => {
+        container.classList.remove("sign-up-mode");
+    });
+    sign_up_btn2.addEventListener("click", () => {
+        container.classList.add("sign-up-mode2");
+    });
+    sign_in_btn2.addEventListener("click", () => {
+        container.classList.remove("sign-up-mode2");
+    });
+
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyD8i21vsNL51sMheuBI176n6cPnf2Ia_eQ",
+        authDomain: "gym-management-system-470ad.firebaseapp.com",
+        projectId: "gym-management-system-470ad",
+        storageBucket: "gym-management-system-470ad.appspot.com",
+        messagingSenderId: "66026201752",
+        appId: "1:66026201752:web:9b28ced689ff637db966ed"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+    // const analytics = getAnalytics(app);
+    const auth = getAuth();
+    console.log(app);
+
+
+
+    // ----- New Registration code start	  
+    document.getElementById("register").addEventListener("click", function () {
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        //For new registration
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                console.log(user);
+                alert("Registration successfully!! Please login");
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ..
+                console.log(errorMessage);
+                alert(error);
+            });
+    });
+    //----- End
+
+    //----- Login code start	  
+    document.getElementById("login").addEventListener("click", function () {
+        var email = document.getElementById("login_email").value;
+        var password = document.getElementById("login_password").value;
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in 
+                const user = userCredential.user;
+                console.log(user);
+                alert(user.email + " Login successfully!!!");
+                window.location.href="index.html"
+                // document.getElementById('logout').style.display = 'block';
+                // ...
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorMessage);
+                alert(errorMessage);
+            });
+    });
+    //----- End
+
+    //----- Logout code start	  
+    document.getElementById("logout").addEventListener("click", function () {
+        signOut(auth).then(() => {
+            // Sign-out successful.
+            console.log('Sign-out successful.');
+            alert('Sign-out successful.');
+            document.getElementById('logout').style.display = 'none';
+        }).catch((error) => {
+            // An error happened.
+            console.log('An error happened.');
+        });
+    });
+	  //----- End
+</script>
+
+</html>
